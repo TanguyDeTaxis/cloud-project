@@ -6,7 +6,7 @@ import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Account {
-	@Id Long id;
+	@Id private Long id;
 	@Index private String firstName;
     private String lastName;
     private int amount;
@@ -27,6 +27,10 @@ public class Account {
 		 setAmount(amount);
 		 setRisk(risk);
 	}
+	 
+	 public Long getId() {
+		 return id;
+	 }
 	 
 	 public String getFirstName() {
 			return firstName;
