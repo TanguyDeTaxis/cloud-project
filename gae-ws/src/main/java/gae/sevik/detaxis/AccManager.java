@@ -54,9 +54,22 @@ public class AccManager {
 	 @GET
 	 @Produces("text/html")	
 	public String deleteEntity(@PathParam("id") Integer id) {				
-		
-		ofy().delete().type(Account.class).id(id).now();
-		//get
-	return "<html><body><h1>Entity</h1> successfully deleted ! <a href=\"/rest/account/list\">Return to list</a></body></html>";
+		Account a = ofy().load().type(Account.class).id(id).now();
+		if( a != null) {
+			ofy().delete().type(Account.class).id(id).now();
+			//get
+		return "<html><body><h1>Entity</h1> successfully deleted ! <a href=\"/rest/account/list\">Return to list</a></body></html>";
+		}
+		else {
+			//TODO: Handle exception error instead
+			return "<html><body>NULL</body></html>";
+		}
+	}
+	
+	@Path("mille")
+	 @GET
+	 @Produces("text/html")	
+	public String mille() {		
+		return "<html><body>mille</body></html>";
 	}
 }
