@@ -11,11 +11,16 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.googlecode.objectify.cmd.QueryExecute;
 
 @Path("/account")
@@ -23,13 +28,16 @@ public class AccManager {
 
   @Path("list")
   @GET
-  @Produces("text/html")
-  public String getList() {
-      
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getList() {
 	List<Account> fetched = ofy().load().type(Account.class).list();
     String openHtml = "<html><body>";
     String list = "";
+    JsonObject json = new JsonObject();
+    JsonArray array = new JsonArray();
+    
     for(Account a : fetched) {
+    	JsonObject jsonAccount = new JsonObject();
     	list = String.format("%s %s ------ %s %s <br>", list, a.getId(), a.getFirstName(), a.getLastName());
     }
     String closeHtml = "</body></html>";
