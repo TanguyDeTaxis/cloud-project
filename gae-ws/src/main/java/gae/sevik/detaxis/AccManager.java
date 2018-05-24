@@ -37,7 +37,11 @@ public class AccManager {
     JsonArray array = new JsonArray();
     
     for(Account a : fetched) {
-    	JsonObject jsonAccount = new JsonObject();
+    	JsonObject obj = new JsonObject();
+    	
+    	obj.add("id", a.getId());
+    	obj.add("firstName", a.getFirstName());
+    	obj.add("lastName", a.getLastName());
     	list = String.format("%s %s ------ %s %s <br>", list, a.getId(), a.getFirstName(), a.getLastName());
     }
     String closeHtml = "</body></html>";
