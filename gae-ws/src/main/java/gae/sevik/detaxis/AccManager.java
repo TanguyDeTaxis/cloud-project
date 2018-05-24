@@ -38,17 +38,30 @@ public class AccManager {
     
     for(Account a : fetched) {
     	JsonObject obj = new JsonObject();
-    	
-    	obj.add("id", a.getId());
-    	obj.add("firstName", a.getFirstName());
-    	obj.add("lastName", a.getLastName());
-    	list = String.format("%s %s ------ %s %s <br>", list, a.getId(), a.getFirstName(), a.getLastName());
+    	obj.addProperty("id", a.getId());
+    	obj.addProperty("firstName", a.getFirstName());
+    	obj.addProperty("lastName", a.getLastName());
+    	array.add(obj);
     }
+    json.add("Accounts", array);
     String closeHtml = "</body></html>";
 
-    return String.format("%s %s %s", openHtml, list, closeHtml);
+    return Response.status(200).entity(json).build();
   }
   
+	@Path("/{id}")
+	 @GET
+	 @Produces(MediaType.APPLICATION_JSON)	
+	public Response getId(@PathParam("id") Long id) {				
+		
+		Account a = ofy().load().type(Account.class).id(id).now();
+		if( a != null) {
+			//get
+		return Response.status(200).entity(a).build();
+		}
+		return Response.status(200).entity(a).build();
+	}
+	
 	@Path("add/{firstname}-{lastname}")
 	 @GET
 	 @Produces("text/html")	
