@@ -46,7 +46,7 @@ public class AccManager {
 		ofy().save().entity(e).now();    // async without the now()
 		
 		//get
-		Account fetched = ofy().load().type(Account.class).filter("firstName","tanguy").first().now();
+		Account fetched = ofy().load().type(Account.class).filter("firstName",firstName).first().now();
 	return "<html><body><h1>Entity</h1>done<br>"+fetched.getFirstName()+"</body></html>";
 	}
 	
