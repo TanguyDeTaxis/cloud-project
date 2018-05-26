@@ -9,7 +9,7 @@
   <artifactId>gae-sevik-detaxis</artifactId>
 
   <properties>
-    <appengine.maven.plugin.version>1.3.2</appengine.maven.plugin.version>
+    <appengine.maven.plugin.version>1.3.1</appengine.maven.plugin.version>
     <appengine.api.sdk.version>1.9.63</appengine.api.sdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -17,7 +17,6 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
   </properties>
-  
 
   <dependencies>
     <!-- Compile/runtime dependencies -->
@@ -33,17 +32,22 @@
       <version>2.3.1</version>
       <scope>provided</scope>
     </dependency>
-
-    <dependency>
-<groupId>com.googlecode.objectify</groupId>
-<artifactId>objectify</artifactId>
-<version>6.0</version>
-</dependency>
 <dependency>
 <groupId>com.google.appengine</groupId>
 <artifactId>appengine-api-1.0-sdk</artifactId>
-<version>1.9.63</version>
+<version>1.9.59</version>
 </dependency>
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+</dependency>
+    <dependency>
+<groupId>com.googlecode.objectify</groupId>
+<artifactId>objectify</artifactId>
+<version>5.1.22</version>
+</dependency>
+
 <!-- Test Dependencies -->
     <dependency>
       <groupId>junit</groupId>
@@ -51,10 +55,35 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+      <dependency>
+  	<groupId>org.glassfish.jersey.core</groupId>
+  	<artifactId>jersey-client</artifactId>
+  	<version>2.26</version>
+</dependency>
+  <dependency>
+  	<groupId>com.google.cloud</groupId>
+  	<artifactId>google-cloud-datastore</artifactId>
+  	<version>1.14.0</version>
+  </dependency>
+      <dependency>                        <!-- Google Core Libraries for Java -->
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>  <!-- https://github.com/google/guava/wiki -->
+      <version>23.0</version>
+    </dependency>
     <dependency>
     	<groupId>org.glassfish.jersey.containers</groupId>
     	<artifactId>jersey-container-servlet</artifactId>
     	<version>2.27</version>
+    </dependency>
+      <dependency>
+  	<groupId>org.glassfish.jersey.containers</groupId>
+  	<artifactId>jersey-container-servlet-core</artifactId>
+  	<version>2.26</version>
+</dependency>
+    <dependency>
+    	<groupId>org.glassfish.jersey.media</groupId>
+    	<artifactId>jersey-media-json-jackson</artifactId>
+    	<version>2.26</version>
     </dependency>
   </dependencies>
 

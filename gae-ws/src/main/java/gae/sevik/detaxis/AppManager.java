@@ -12,31 +12,40 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.jackson.JacksonFeature;
 
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.gson.JsonObject;
+import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.QueryExecute;
 
 @Path("/approval")
 public class AppManager {
 
+	static {
+		ObjectifyService.register(Account.class);
+		ObjectifyService.register(Approval.class);
+	}
+	
 	@Path("aff")
 	  @GET
 	  @Produces("text/html")
 	  public String get() {
 	      
 	    String openHtml = "<html><body>";
-	    Response r = ClientBuilder.newClient().target("http://localhost:8080/").path("rest/account/list").request(MediaType.APPLICATION_JSON).get();
-	    JsonObject list = r.readEntity(JsonObject.class);
-	    String l = list.getAsString();
+	    Client cl = ClientBuilder.newBuilder().register(JacksonFeature.class).build();
+	    Response r = cl.target("https://inf63app2.appspot.com/").path("rest/account/list").request(MediaType.APPLICATION_JSON).get();
+	    String list = r.readEntity(String.class);
 	    String closeHtml = "</body></html>";
 
-	    return String.format("%s %s %s", openHtml, l, closeHtml);
+	    return String.format("%s %s %s", openHtml, list, closeHtml);
 	  }
 	
 	@Path("list")

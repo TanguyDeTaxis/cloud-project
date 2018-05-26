@@ -15,38 +15,30 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;
 import com.google.cloud.datastore.Key;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.QueryExecute;
 
 @Path("/account")
 public class AccManager {
 
+	static {
+		ObjectifyService.register(Account.class);
+	}
+	
   @Path("list")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getList() {
 	List<Account> fetched = ofy().load().type(Account.class).list();
-    String openHtml = "<html><body>";
-    String list = "";
-    JsonObject json = new JsonObject();
-    JsonArray array = new JsonArray();
-    
-    for(Account a : fetched) {
-    	JsonObject obj = new JsonObject();
-    	obj.addProperty("id", a.getId());
-    	obj.addProperty("firstName", a.getFirstName());
-    	obj.addProperty("lastName", a.getLastName());
-    	array.add(obj);
-    }
-    json.add("Accounts", array);
-    String closeHtml = "</body></html>";
 
-    return Response.status(200).entity(json).build();
+    return Response.status(200).entity(fetched).build();
   }
   
 	@Path("/{id}")
