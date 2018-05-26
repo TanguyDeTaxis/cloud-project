@@ -69,13 +69,12 @@ public class AppManager {
 	@POST
 	public Response createEntity(Approval app) {				
 		
-		ofy().save().entity(app).now();    // async without the now()
+		com.googlecode.objectify.Key<Approval> keyApproval = ofy().save().entity(app).now();    // async without the now()
 		
 		// get
-		Approval fetched = ofy().load().type(Approval.class).filter("lastName",app.getLastName()).first().now();
-		
-		String output = "Approval added";
-		return Response.status(200).entity(output).build();
+		Approval fetched = ofy().load().key(keyApproval).now();
+
+		return Response.status(200).entity(fetched).build();
 	}
 
 	@Path("delete/{id}")

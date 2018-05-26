@@ -60,10 +60,10 @@ public class AccManager {
 	public String createEntity(@PathParam("firstname") String firstName, @PathParam("lastname") String lastName) {
 
 		Account e = new Account(firstName, lastName);
-		ofy().save().entity(e).now(); // async without the now()
+		com.googlecode.objectify.Key<Account> keyAccount = ofy().save().entity(e).now(); // async without the now()
 
 		// get
-		Account fetched = ofy().load().type(Account.class).filter("firstName", firstName).first().now();
+		Account fetched = ofy().load().key(keyAccount).now();
 		return "<html><body><h1>Entity</h1>done<br>" + fetched.getFirstName() + "</body></html>";
 	}
 
