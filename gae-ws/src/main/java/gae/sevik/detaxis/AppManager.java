@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -97,34 +98,9 @@ public class AppManager {
 		
 		return Response.status(HttpStatus.SC_ACCEPTED).entity(listApprovals).build();
 	}
-	
-/*
-	@Path("list")
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public String getList() {
-
-		List<Approval> listApprovals = null;
-		
-		try {
-			listApprovals = ofy().load().type(Approval.class).list();
-		} catch(Exception e) {
-			return String.format("Error exception : %s",e.getMessage());
-		}
-		
-		String openHtml = "<html><body>";
-		String list = "";
-		for (Approval a : listApprovals) {
-			list = String.format("%s %s ------ %s %s <br>", list, a.getId(), a.getLastName(), a.isAccepted());
-		}
-		String closeHtml = "</body></html>";
-
-		return String.format("%s %s %s", openHtml, list, closeHtml);
-	}
-	*/
 
 	/**
-	 * Createan Approval
+	 * Create an Approval
 	 * 
 	 * Method handling HTTP POST requests. The returned object will be sent to the
 	 * client as a Response with a MediaType.APPLICATION_JSON object.
@@ -161,7 +137,7 @@ public class AppManager {
 	 * @return 		Response.
 	 */
 	@Path("delete/{id}")
-	@GET
+	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteEntity(@PathParam("id") Long id) {
 		

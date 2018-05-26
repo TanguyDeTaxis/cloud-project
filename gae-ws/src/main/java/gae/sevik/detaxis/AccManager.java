@@ -4,7 +4,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -99,19 +101,17 @@ public class AccManager {
 	/**
 	 * Create an Account
 	 * 
-	 * Method handling HTTP GET requests. The returned object will be sent to the
+	 * Method handling HTTP POST requests. The returned object will be sent to the
 	 * client as a Response with a MediaType.APPLICATION_JSON object.
 	 *
 	 * @param firstName	Firstname of the new account owner
 	 * @param lastName 	Lastname of the new account owner
 	 * @return 			Response.
 	 */
-	@Path("add/{firstname}-{lastname}")
-	@GET
+	@Path("add")
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createEntity(@PathParam("firstname") String firstName, @PathParam("lastname") String lastName) {
-
-		Account account = new Account(firstName, lastName);
+	public Response createEntity(Account account) {
 		
 		try {
 			
@@ -142,10 +142,10 @@ public class AccManager {
 	 * @param id	unique identifier for the Account
 	 * @return 		Response.
 	 */
-	@Path("delete/{id: [0-9]*}")
-	@GET
+	@Path("delete/{id}")
+	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteEntity(@PathParam("id") Integer id) {
+	public Response deleteEntity(@PathParam("id") Long id) {
 		
 		try {
 			
