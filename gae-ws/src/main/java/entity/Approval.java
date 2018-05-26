@@ -1,9 +1,12 @@
 package entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
+@XmlRootElement
 @Entity
 public class Approval {
 	@Id private Long id;
