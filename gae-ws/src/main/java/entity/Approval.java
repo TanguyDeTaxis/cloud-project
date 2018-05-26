@@ -11,6 +11,7 @@ import com.googlecode.objectify.annotation.Index;
 public class Approval {
 	@Id private Long id;
 	@Index private String lastName;
+	private Long idAccount;
     private boolean accepted;
   
     public Approval() {
@@ -33,6 +34,10 @@ public class Approval {
 		public String getLastName() {
 			return lastName;
 		}
+		
+		public Long getIdAccount() {
+			return idAccount;
+		}
 
 
 		public void setLastName(String lastName) {
@@ -45,6 +50,10 @@ public class Approval {
 
 		public void setAccepted(boolean accepted) {
 			this.accepted = accepted;
+		}
+		
+		public void setIdAccount(Long idAccount) {
+			this.idAccount = idAccount;
 		}
 
 }
