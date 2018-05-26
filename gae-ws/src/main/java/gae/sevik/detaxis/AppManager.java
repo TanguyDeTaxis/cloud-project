@@ -46,7 +46,7 @@ public class AppManager {
 			return Response.status(200).entity(a).build();
 		}
 		return Response.status(200).entity(a).build();
-
+		
 	}
 
 	@Path("list")
