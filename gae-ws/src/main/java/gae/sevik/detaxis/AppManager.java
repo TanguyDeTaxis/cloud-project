@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.http.HttpStatus;
 
@@ -19,6 +20,9 @@ import com.googlecode.objectify.ObjectifyService;
 import entity.Account;
 import entity.Approval;
 
+/**
+ * Root resource (exposed at "approval" path)
+ */
 @Path("/approval")
 public class AppManager {
 
@@ -27,6 +31,15 @@ public class AppManager {
 		ObjectifyService.register(Approval.class);
 	}
 
+	/**
+	 * Get an Approval
+	 * 
+	 * Method handling HTTP GET requests. The returned object will be sent to the
+	 * client as a Response with a MediaType.APPLICATION_JSON object.
+	 *
+	 * @param id 	unique identifier for the Approval
+	 * @return 		Response.
+	 */
 	@Path("/{id: [0-9]*}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -35,15 +48,31 @@ public class AppManager {
 		Approval approval = null;
 		
 		try {
-			//Sync loading ID
+			
+			// Sync loading of approval filtering by Id
 			approval = ofy().load().type(Approval.class).id(id).now();
+			
 		} catch(Exception e) {
+			//If errors occurs during loading, return 404
+			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
+		}
+		
+		//If approval is null, return 404
+		if(approval == null) {
 			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
 		}
 		
 		return Response.status(HttpStatus.SC_ACCEPTED).entity(approval).build();
 	}
 	
+	/**
+	 * Get all the Approvals
+	 * 
+	 * Method handling HTTP GET requests. The returned object will be sent to the
+	 * client as a Response with a MediaType.APPLICATION_JSON object.
+	 *
+	 * @return 		Response.
+	 */
 	@Path("list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -52,8 +81,17 @@ public class AppManager {
 		List<Approval> listApprovals = null;
 		
 		try {
+			
+			// Sync loading of all Approvals
 			listApprovals = ofy().load().type(Approval.class).list();
+			
 		} catch(Exception e) {
+			//If errors occurs during loading, return 404
+			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
+		}
+		
+		//If approval is null or empty, return 404
+		if(listApprovals == null || listApprovals.isEmpty()) {
 			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
 		}
 		
@@ -71,7 +109,7 @@ public class AppManager {
 		try {
 			listApprovals = ofy().load().type(Approval.class).list();
 		} catch(Exception e) {
-			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
+			return String.format("Error exception : %s",e.getMessage());
 		}
 		
 		String openHtml = "<html><body>";
@@ -85,6 +123,14 @@ public class AppManager {
 	}
 	*/
 
+	/**
+	 * Createan Approval
+	 * 
+	 * Method handling HTTP POST requests. The returned object will be sent to the
+	 * client as a Response with a MediaType.APPLICATION_JSON object.
+	 *
+	 * @return 		Response.
+	 */
 	@Path("add")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -92,16 +138,28 @@ public class AppManager {
 		
 		try {
 			
+			// Sync saving of an approval
 			com.googlecode.objectify.Key<Approval> keyApproval = ofy().save().entity(app).now();
+			// Sync loading it by its key
 			app = ofy().load().key(keyApproval).now();
 			
 		} catch(Exception e) {
+			//If errors occurs during saving or loading, return 404
 			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
 		}
 		
-		return Response.status(HttpStatus.SC_CREATED).entity(app).build();
+		return Response.status(HttpStatus.SC_ACCEPTED).entity(app).build();
 	}
 
+	/**
+	 * Delete an Approval
+	 * 
+	 * Method handling HTTP GET requests. The returned object will be sent to the
+	 * client as a Response with a MediaType.APPLICATION_JSON object.
+	 *
+	 * @param id 	unique identifier for the Approval
+	 * @return 		Response.
+	 */
 	@Path("delete/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -112,6 +170,7 @@ public class AppManager {
 			ofy().delete().type(Approval.class).id(id).now();
 			
 		} catch(Exception e) {
+			//If errors occurs during deleting, return 404
 			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
 		}
 		
