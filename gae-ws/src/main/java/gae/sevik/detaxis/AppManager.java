@@ -2,30 +2,22 @@ package gae.sevik.detaxis;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import entity.Account;
-import entity.Approval;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.jackson.JacksonFeature;
+import org.apache.http.HttpStatus;
 
-import com.google.cloud.datastore.Datastore;
-import com.google.cloud.datastore.Entity;
-import com.google.cloud.datastore.Key;
-import com.google.gson.JsonObject;
 import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.cmd.QueryExecute;
+
+import entity.Account;
+import entity.Approval;
 
 @Path("/approval")
 public class AppManager {
@@ -35,60 +27,95 @@ public class AppManager {
 		ObjectifyService.register(Approval.class);
 	}
 
-	@Path("/{id}")
+	@Path("/{id: [0-9]*}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getId(@PathParam("id") Long id) {
 
-		Approval a = ofy().load().type(Approval.class).id(id).now();
-		if (a != null) {
-			// get
-			return Response.status(200).entity(a).build();
-		}
-		return Response.status(200).entity(a).build();
+		Approval approval = null;
 		
+		try {
+			//Sync loading ID
+			approval = ofy().load().type(Approval.class).id(id).now();
+		} catch(Exception e) {
+			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
+		}
+		
+		return Response.status(HttpStatus.SC_ACCEPTED).entity(approval).build();
 	}
-
+	
 	@Path("list")
 	@GET
-	@Produces("text/html")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getList() {
+		
+		List<Approval> listApprovals = null;
+		
+		try {
+			listApprovals = ofy().load().type(Approval.class).list();
+		} catch(Exception e) {
+			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
+		}
+		
+		return Response.status(HttpStatus.SC_ACCEPTED).entity(listApprovals).build();
+	}
+	
+/*
+	@Path("list")
+	@GET
+	@Produces(MediaType.TEXT_HTML)
 	public String getList() {
 
-		List<Approval> fetched = ofy().load().type(Approval.class).list();
+		List<Approval> listApprovals = null;
+		
+		try {
+			listApprovals = ofy().load().type(Approval.class).list();
+		} catch(Exception e) {
+			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
+		}
+		
 		String openHtml = "<html><body>";
 		String list = "";
-		for (Approval a : fetched) {
+		for (Approval a : listApprovals) {
 			list = String.format("%s %s ------ %s %s <br>", list, a.getId(), a.getLastName(), a.isAccepted());
 		}
 		String closeHtml = "</body></html>";
 
 		return String.format("%s %s %s", openHtml, list, closeHtml);
 	}
+	*/
 
 	@Path("add")
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEntity(Approval app) {				
 		
-		com.googlecode.objectify.Key<Approval> keyApproval = ofy().save().entity(app).now();    // async without the now()
+		try {
+			
+			com.googlecode.objectify.Key<Approval> keyApproval = ofy().save().entity(app).now();
+			app = ofy().load().key(keyApproval).now();
+			
+		} catch(Exception e) {
+			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
+		}
 		
-		// get
-		Approval fetched = ofy().load().key(keyApproval).now();
-
-		return Response.status(200).entity(fetched).build();
+		return Response.status(HttpStatus.SC_CREATED).entity(app).build();
 	}
 
 	@Path("delete/{id}")
 	@GET
-	@Produces("text/html")
-	public String deleteEntity(@PathParam("id") Integer id) {
-		Approval a = ofy().load().type(Approval.class).id(id).now();
-		if (a != null) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteEntity(@PathParam("id") Long id) {
+		
+		try {
+			
 			ofy().delete().type(Approval.class).id(id).now();
-			// get
-			return "<html><body><h1>Entity</h1> successfully deleted ! <a href=\"/rest/approval/list\">Return to list</a></body></html>";
-		} else {
-			// TODO: Handle exception error instead
-			return "<html><body>NULL</body></html>";
+			
+		} catch(Exception e) {
+			return Response.status(HttpStatus.SC_NOT_FOUND).entity("Error : Resource not found").build();
 		}
+		
+		return Response.status(HttpStatus.SC_ACCEPTED).entity("Successfully deleted").build();
 	}
+	
 }
