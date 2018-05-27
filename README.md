@@ -14,10 +14,9 @@
 ## To launch guzzle client 
 
 Move to guzzle-client folder <br/>
-Then tap this commands :
+Then tap this command :
 
 ```
-  composer install
   php -S localhost:8000
 ```
 And open a browser at http://localhost:8000/
