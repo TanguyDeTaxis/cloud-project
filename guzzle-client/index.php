@@ -45,15 +45,19 @@ $clientHeroku = new Client([
                 name="method" value="DELETE">
                 <label for="contactChoice3">DELETE</label>
             </div>
+            <div>
+                <textarea style="margin: 2% 0; width:100%;" rows="10" name="params" value="params"> </textarea>
+            </div>
             <input style="margin-top: 2%;" type="submit">
         </form> 
         <?php 
-            if(isset($_POST['url']) && $_POST['method']){
+            if(isset($_POST['url']) && $_POST['method'] && $_POST['params']){
                  $clientOther = new Client([
                     'base_uri' => $_POST['url']
                 ]);
                 try {
-                    $responseOther = $clientOther->request($_POST['method'], ""); 
+                    $json = json_decode($_POST['params']);
+                    $responseOther = $clientOther->request($_POST['method'], "", [ 'json' =>  $json]); 
                     $body = $responseOther->getBody();
                     echo "<b>".$body."</b>";
                 } catch (ClientException $e) {
