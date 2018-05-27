@@ -1,12 +1,12 @@
 # cloud-project by SEVIK Ozcan & DE TAXIS DU POET Tanguy
 
-## Folder gae-ws
+### Folder gae-ws
 #### Contains Google App Engine web services
 
-## Folder heroku-ws
+### Folder heroku-ws
 #### Contains Heroku web services
 
-## Folder guzzle-client
+### Folder guzzle-client
 #### Contains Guzzle Client
 
 ## To launch guzzle client 
