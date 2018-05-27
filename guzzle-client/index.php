@@ -48,7 +48,8 @@ error_reporting(E_ALL ^ E_NOTICE);
                 <label for="contactChoice3">DELETE</label>
             </div>
             <div>
-                <textarea style="margin: 2% 0; width:100%;" rows="10" name="params" value="params"> </textarea>
+                <div class="json-badge">JSON</div>
+                <textarea style="width:100%;" rows="10" name="params" value="params"> </textarea>
             </div>
             <input style="margin-top: 2%;" type="submit">
         </form> 

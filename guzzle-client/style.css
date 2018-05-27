@@ -28,3 +28,16 @@ h2{
 body{
     font-family: sans-serif;
 }
+
+.json-badge{
+    float: right;
+    padding: 1%;
+    background-color: #fffab2;
+    border-radius: 10%;
+    font-size: 12px;
+}
+
+textarea{
+    border: 1px solid lightgray;
+    background-color: #fffeee;
+}
