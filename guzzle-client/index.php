@@ -14,6 +14,8 @@ $clientHeroku = new Client([
     // Base URI is used with relative requests
     'base_uri' => 'https://test-app-heroku-sevik-detax.herokuapp.com/loanapproval/'
 ]);
+
+error_reporting(E_ALL ^ E_NOTICE);  
 ?>
 
 
