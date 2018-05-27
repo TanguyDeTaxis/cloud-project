@@ -1,17 +1,30 @@
-
 .card{
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 35px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
     padding: 0 2% 2% 2%;
 }
 
 .card-two{
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 35px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
     padding: 0.5% 2% 2% 2%;
     margin:2%;
+}
+
+.card-three{
+    box-shadow: 0 2px 20px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    padding: 0 2% 2% 2%;
 }
 
 label {
   display: inline-block;
   width: 140px;
   margin: 5px 0;
+}
+
+h2{
+    font-family: sans-serif;
+    margin-top: 1%;
+}
+
+body{
+    font-family: sans-serif;
 }

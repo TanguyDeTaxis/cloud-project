@@ -71,7 +71,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
     <div style="margin:2%; display:flex; flex-direction:row; justify-content: space-between;">
 
-        <div class="card">
+        <div class="card-three">
             <h3>Accounts</h3>
             <div> 
                 <?php 
@@ -93,7 +93,7 @@ error_reporting(E_ALL ^ E_NOTICE);
             </div>
         </div>
         
-        <div class="card">
+        <div class="card-three">
             <h3>Approvals</h3>
             <div> 
                 <?php 
@@ -166,5 +166,5 @@ error_reporting(E_ALL ^ E_NOTICE);
             ?>
         </div>
     </div>
-
+    
 </html>
