@@ -125,7 +125,7 @@ error_reporting(E_ALL ^ E_NOTICE);
     </div>
 
     <div class="card-two">
-        <h3>Ask for money</h3>
+        <h3>Credit request</h3>
         <div style="padding: 0 2%">
             <form action="/" method="post">
             <div class="block">
