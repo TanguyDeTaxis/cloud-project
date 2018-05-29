@@ -85,7 +85,11 @@ error_reporting(E_ALL ^ E_NOTICE);
                         echo "id : ".number_format($account->id, 0, '', '');
                         echo ", first name : ".$account->firstName;
                         echo ", last name : ".$account->lastName;
-                        echo ", risk : ".$account->risk;
+			if((int) $account->risk == 1){
+                        	echo ", risk : yes";
+			} else {
+				echo ", risk : no";
+			}
                         echo ", amount : ".$account->amount;
                         echo "</li>";
                     }
